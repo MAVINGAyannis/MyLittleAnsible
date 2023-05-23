@@ -1,45 +1,12 @@
 import argparse
-import yaml
-import json
-import paramiko
-from paramiko import SSHConfig
-import os
-import socket
+from ssh_connect import connect_ssh_user, connect_ssh_key_file, connect_default
+from yaml_to_json import read_yaml_file, write_json_file
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Script to process inventory and todos')
     parser.add_argument('-i', '--inventory', help='Inventory file path')
     parser.add_argument('-f', '--todos', help='Todos file path')
     return parser.parse_args()
-
-def read_yaml_file(file_path):
-    with open(file_path, 'r') as file:
-        data = yaml.safe_load(file)
-        return data
-
-def write_json_file(data, file_path):
-    with open(file_path, 'w') as file:
-        json.dump(data, file, indent=4)
-
-def establish_ssh_connection(host, port):
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    try:
-        ssh.connect(hostname=host, port=port, timeout=5)  # Ajout du paramètre timeout
-        print(f'SSH connection established with {host}')
-        # Effectuez ici les opérations nécessaires sur l'hôte distant
-        # ...
-    except paramiko.AuthenticationException:
-        print(f'Authentication failed for {host}')
-    except paramiko.SSHException as e:
-        print(f'Error while establishing SSH connection with {host}: {str(e)}')
-    except socket.timeout:
-        print(f'Timeout while establishing SSH connection with {host}')
-    except socket.gaierror as e:
-        print(f'Error while establishing SSH connection with {host}: {str(e)}')
-    finally:
-        ssh.close()
-        print(f'SSH connection closed with {host}')
 
 # Point d'entrée du script
 if __name__ == '__main__':
@@ -67,20 +34,14 @@ if __name__ == '__main__':
     todos_json_path = 'todos.json'
     write_json_file(todos_data, todos_json_path)
 
-    # Chargement de la configuration SSH par défaut
-    ssh_config = SSHConfig()
-    user_config_file = os.path.expanduser('~/.ssh/config')
-    if os.path.exists(user_config_file):
-        with open(user_config_file) as f:
-            ssh_config.parse(f)
-
-    # Établissement de la connexion SSH avec chaque hôte
+    # Lecture de chaque hôte
     for host, host_info in inventory_data['hosts'].items():
-        address = host_info.get('ssh_address')
-        port = host_info.get('ssh_port', 22)
-        print(address, port)
-
-        if address:
-            establish_ssh_connection(address, port)
-        else:
-            print(f'SSH address not found for host {host}')
+        print(f'Host: {host}')
+        print(f'  ssh_address: {host_info["ssh_address"]}')
+        print(f'  ssh_port: {host_info["ssh_port"]}')
+        if 'ssh_user' in host_info and 'ssh_password' in host_info:
+            connect_ssh_user(host_info['ssh_user'], host_info['ssh_password'], host_info["ssh_address"], host_info["ssh_port"])
+        if 'ssh_key_file' in host_info:
+            connect_ssh_key_file(host_info['ssh_key_file'], host_info["ssh_address"], host_info["ssh_port"])
+        if 'ssh_user' not in host_info and 'ssh_key_file' not in host_info:
+            connect_default(host_info["ssh_address"], host_info["ssh_port"])
