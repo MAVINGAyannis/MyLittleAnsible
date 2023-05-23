@@ -1,25 +1,14 @@
-import argparse
-import os
 from ssh_connect import connect_ssh_user, connect_ssh_key_file, connect_default
 from yaml_to_json import read_yaml_file, write_json_file
-
-def parse_arguments():
-    parser = argparse.ArgumentParser(description='Script to process inventory and todos')
-    parser.add_argument('-i', '--inventory', help='Inventory file path')
-    parser.add_argument('-f', '--todos', help='Todos file path')
-    return parser.parse_args()
+from arguments import parse_arguments, check_arguments
+from delete_JSON import delete_JSON
 
 # Point d'entrée du script
 if __name__ == '__main__':
     args = parse_arguments()
 
     # Vérification des arguments
-    if not args.inventory:
-        print('Veuillez spécifier un fichier d\'inventaire avec le flag -i')
-        exit(1)
-    if not args.todos:
-        print('Veuillez spécifier un fichier de todos avec le flag -f')
-        exit(1)
+    check_arguments(args)
 
     # Lecture du fichier d'inventaire YAML
     inventory_data = read_yaml_file(args.inventory)
@@ -48,5 +37,4 @@ if __name__ == '__main__':
             connect_default(host_info["ssh_address"], host_info["ssh_port"])
 
     # Suppression des fichiers JSON
-    os.remove(inventory_json_path)
-    os.remove(todos_json_path)
+    delete_JSON(inventory_json_path, todos_json_path)
