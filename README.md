@@ -5,7 +5,9 @@ MyLittleAnsible est un outil en ligne de commande développé en Python qui vous
 Connexion à des hôtes distants via le protocole SSH
 Exécution de playbooks (todos.yml) avec une suite d'actions à effectuer sur les cibles
 Implémentation de modules permettant de configurer les hôtes distants
-Installation
+
+## Installation
+
 Clonez ce dépôt :
 
 ```
