@@ -1,4 +1,5 @@
 import argparse
+import os
 from ssh_connect import connect_ssh_user, connect_ssh_key_file, connect_default
 from yaml_to_json import read_yaml_file, write_json_file
 
@@ -45,3 +46,7 @@ if __name__ == '__main__':
             connect_ssh_key_file(host_info['ssh_key_file'], host_info["ssh_address"], host_info["ssh_port"])
         if 'ssh_user' not in host_info and 'ssh_key_file' not in host_info:
             connect_default(host_info["ssh_address"], host_info["ssh_port"])
+
+    # Suppression des fichiers JSON
+    os.remove(inventory_json_path)
+    os.remove(todos_json_path)
