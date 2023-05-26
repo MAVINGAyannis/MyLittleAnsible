@@ -23,7 +23,7 @@ if __name__ == '__main__':
     write_json_file(todos_data, 'todos.json')
 
     # Traitement des hôtes
-    process_hosts(inventory_data)
+    process_hosts(inventory_data, todos_data)
 
     # Suppression des fichiers JSON
     delete_JSON('inventory.json', 'todos.json')
