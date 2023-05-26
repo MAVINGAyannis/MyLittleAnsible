@@ -5,6 +5,7 @@ import paramiko
 from paramiko import SSHConfig
 import os
 import socket
+from modules.exec_command import execute_command
 
 def connect_ssh_user(host_info):
     print('  ssh_type: login')
@@ -20,6 +21,8 @@ def connect_ssh_user(host_info):
                        password=host_info["ssh_password"],
                        look_for_keys=False)
         print("Connected successfully!")
+        output = execute_command(client, "ls -l")
+        print(output)
     except Exception:
         print("Failed to establish connection.")
     finally:
