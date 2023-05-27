@@ -10,27 +10,7 @@ from modules.copy import copy
 from modules.apt import apt
 from modules.service import service
 from modules.template import template
-
-def which_todos(client, todos_data):
-    for todo in todos_data:
-        module = todo.get('module')
-        params = todo.get('params')
-
-        if module == 'apt':
-            apt(client, params)
-
-        elif module == 'copy':
-            copy(client, params)
-
-        elif module == 'template':
-            template(client, params)
-
-        elif module == 'service':
-            service(client, params)
-        else:
-            # Module inconnu
-            print(f"Unknown module: {module}")
-
+from which_todos import which_todos
 
 def connect_ssh_user(host_info, todos_data):
     print('  ssh_type: login')
@@ -46,8 +26,7 @@ def connect_ssh_user(host_info, todos_data):
                        password=host_info["ssh_password"],
                        look_for_keys=False)
         print("Connected successfully!")
-        output = execute_command(client, "ls -l")
-        which_todos(client, todos_data)
+        which_todos(client, todos_data, host_info)
     except Exception:
         print("Failed to establish connection.")
     finally:
