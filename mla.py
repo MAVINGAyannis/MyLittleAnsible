@@ -1,6 +1,6 @@
-from yaml_to_json import read_yaml_file, write_json_file
-from arguments import parse_arguments, check_arguments
-from delete_JSON import delete_JSON
+from arguments.yaml_to_json import read_yaml_file, write_json_file
+from arguments.arguments import parse_arguments, check_arguments
+from arguments.delete_JSON import delete_JSON
 from process_hosts import process_hosts
 
 # Point d'entrée du script
@@ -23,7 +23,7 @@ if __name__ == '__main__':
     write_json_file(todos_data, 'todos.json')
 
     # Traitement des hôtes
-    process_hosts(inventory_data)
+    process_hosts(inventory_data, todos_data)
 
     # Suppression des fichiers JSON
     delete_JSON('inventory.json', 'todos.json')

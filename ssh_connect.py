@@ -5,8 +5,14 @@ import paramiko
 from paramiko import SSHConfig
 import os
 import socket
+from modules.exec_command import execute_command
+from modules.copy import copy
+from modules.apt import apt
+from modules.service import service
+from modules.template import template
+from which_todos import which_todos
 
-def connect_ssh_user(host_info):
+def connect_ssh_user(host_info, todos_data):
     print('  ssh_type: login')
     print(f'  ssh_user: {host_info["ssh_user"]}')
     print(f'  ssh_password: {host_info["ssh_password"]}')
@@ -20,6 +26,7 @@ def connect_ssh_user(host_info):
                        password=host_info["ssh_password"],
                        look_for_keys=False)
         print("Connected successfully!")
+        which_todos(client, todos_data, host_info)
     except Exception:
         print("Failed to establish connection.")
     finally:
