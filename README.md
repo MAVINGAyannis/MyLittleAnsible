@@ -98,6 +98,3 @@ Authentification par nom d'utilisateur et mot de passe, en spécifiant les attri
 Authentification par clé privée, en spécifiant le chemin vers la clé privée avec l'attribut ssh_key dans la définition des cibles dans l'inventaire.
 
 Assurez-vous de configurer l'authentification SSH appropriée dans le fichier inventory.yml en fonction de vos besoins.
-
-Yannis Mavinga
-y.mavinga.pro@gmail.com
