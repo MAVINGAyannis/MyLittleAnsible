@@ -13,10 +13,7 @@ from modules.template import template
 from which_todos import which_todos
 
 def connect_ssh_user(host_info, todos_data):
-    print('  ssh_type: login')
     print(f'  ssh_user: {host_info["ssh_user"]}')
-    print(f'  ssh_password: {host_info["ssh_password"]}')
-
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     try:

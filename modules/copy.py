@@ -7,6 +7,7 @@ def copy(client, params, host_info):
     src = params.get('src')
     dest = params.get('dest')
     backup = params.get('backup', False)
+    print(f"Module: copy, Name: {name}, State: {state}")
 
     # Vérifier si src est un fichier ou un dossier
     if os.path.isfile(src):
@@ -18,15 +19,16 @@ def copy(client, params, host_info):
                 scp = SCPClient(client.get_transport())
                 scp.get(dest, backup_dest)
                 scp.close()
-                print(f"Backup created: {dest} -> {backup_dest}")
+                print(f"COPY BACKUP: SUCCESS")
 
             # Copier le nouveau fichier
             scp = SCPClient(client.get_transport())
             scp.put(src, dest)
             scp.close()
-            print(f"File copied: {src} -> {dest}")
+            print(f"COPY : SUCCESS")
         except Exception as e:
-            print(f"Error copying file: {e}")
+            # "e" contient le fichier défectueuse
+            print(f"COPY : FAILED")
     elif os.path.isdir(src):
         # Copier un dossier (récursivement)
         try:
