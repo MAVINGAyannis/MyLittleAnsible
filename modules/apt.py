@@ -3,7 +3,7 @@ from modules.exec_command import execute_command
 def exec_apt(type, to_print, client, name):
     # Faire quelque chose pour le module apt
     command = "apt-get --yes " + type + " " + name
-    status = execute_command(client, command, "false")
+    status = execute_command(client, command, "false", "/bin/bash")
     if status == 1:
         print("APT " + to_print + " : COMMAND EXECUTED")
 

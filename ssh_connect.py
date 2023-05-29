@@ -5,7 +5,6 @@ import paramiko
 from paramiko import SSHConfig
 import os
 import socket
-from modules.exec_command import execute_command
 from modules.copy import copy
 from modules.apt import apt
 from modules.service import service
