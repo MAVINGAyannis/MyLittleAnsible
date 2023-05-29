@@ -2,6 +2,7 @@ from modules.copy import copy
 from modules.apt import apt
 from modules.service import service
 from modules.template import template
+from modules.command import command
 
 def which_todos(client, todos_data, host_info):
     for todo in todos_data:
@@ -19,6 +20,9 @@ def which_todos(client, todos_data, host_info):
 
         elif module == 'service':
             service(client, params)
+
+        elif module == 'command':
+            command(client, params)
         else:
             # Module inconnu
             print(f"Unknown module: {module}")
