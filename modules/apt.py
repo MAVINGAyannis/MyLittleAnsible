@@ -12,7 +12,7 @@ def exec_apt(type, to_print, client, name):
 
 def apt(client, params):
     name = params.get('name')
-    state = params.get('state')
+    state = params.get('state', 'present')
     print(f"Module: apt, Name: {name}, State: {state}")
 
     if state == 'present':
