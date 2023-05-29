@@ -1,18 +1,21 @@
 import paramiko
 
-def execute_command(ssh_client, command):
+def execute_command(ssh_client, command, do_print, shell):
     try:
-        stdin, stdout, stderr = ssh_client.exec_command("sudo " + command)
+        stdin, stdout, stderr = ssh_client.exec_command(shell + " sudo " + command)
         output = []
         for line in stdout:
             line = line.strip()
             # "line" contient la ligne de sortie
+            if do_print == "true":
+                print(line)
             output.append(line)
 
         errors = stderr.read().decode()
         if errors:
-            # "errors_line" contient la ligne d'erreur
-            errors_line = errors
+            # "errors" contient la ligne d'erreur
+            if do_print == "true":
+                print(errors)
 
         return 1
     except Exception as e:
