@@ -3,6 +3,7 @@ from modules.apt import apt
 from modules.service import service
 from modules.template import template
 from modules.command import command
+from modules.sysctl import sysctl
 
 def which_todos(client, todos_data, host_info):
     for todo in todos_data:
@@ -23,6 +24,10 @@ def which_todos(client, todos_data, host_info):
 
         elif module == 'command':
             command(client, params)
+
+        elif module == 'sysctl':
+            sysctl(client, params)
+
         else:
             # Module inconnu
             print(f"Unknown module: {module}")
