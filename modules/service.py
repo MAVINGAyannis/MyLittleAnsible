@@ -8,7 +8,6 @@ def service(client, params):
         # Faire quelque chose pour le module service (state: started)
         print(f"Module: service, Name: {name}, State: {state}")
         command = "systemctl start " + name + ".service"
-        print(command)
     elif state == 'restarted':
         # Faire quelque chose pour le module service (state: enabled)
         print(f"Module: service, Name: {name}, State: {state}")
