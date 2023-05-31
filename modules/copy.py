@@ -19,16 +19,15 @@ def copy(client, params, host_info):
                 scp = SCPClient(client.get_transport())
                 scp.get(dest, backup_dest)
                 scp.close()
-                print(f"COPY BACKUP: SUCCESS")
 
             # Copier le nouveau fichier
             scp = SCPClient(client.get_transport())
             scp.put(src, dest)
             scp.close()
-            print(f"COPY : SUCCESS")
+            print(f"COPY : success")
         except Exception as e:
             # "e" contient le fichier défectueuse
-            print(f"COPY : FAILED")
+            print(f"COPY : failed")
     elif os.path.isdir(src):
         # Copier un dossier (récursivement)
         try:
