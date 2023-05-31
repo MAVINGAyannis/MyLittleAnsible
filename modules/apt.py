@@ -5,10 +5,10 @@ def exec_apt(type, to_print, client, name):
     command = "apt-get --yes " + type + " " + name
     status = execute_command(client, command, "false", "/bin/bash")
     if status == 1:
-        print("APT " + to_print + " : COMMAND EXECUTED")
+        print("APT " + to_print + " : command executed")
 
     if status == 401:
-        print("APT " + to_print + " : WRONG COMMAND")
+        print("APT " + to_print + " : wrong command")
 
 def apt(client, params):
     name = params.get('name')

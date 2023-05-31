@@ -2,7 +2,7 @@ import paramiko
 
 def execute_command(ssh_client, command, do_print, shell):
     try:
-        stdin, stdout, stderr = ssh_client.exec_command(shell + " sudo " + command)
+        stdin, stdout, stderr = ssh_client.exec_command("sudo " + command)
         output = []
         for line in stdout:
             line = line.strip()
