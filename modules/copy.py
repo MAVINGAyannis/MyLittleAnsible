@@ -2,12 +2,18 @@ import paramiko
 import scp
 from scp import SCPClient
 import os
+from datetime import datetime
 
 def copy(client, params, host_info):
     src = params.get('src')
     dest = params.get('dest')
     backup = params.get('backup', False)
-    print(f"Module: copy, Name: {name}, State: {state}")
+
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    address = host_info.get('ssh_address')
+
+    print(dt_string + " - ROOT - INFO - host=" + address + " op=copy src=" + src +  " dest=" + dest + " backup=" + str(backup))
 
     # Vérifier si src est un fichier ou un dossier
     if os.path.isfile(src):
@@ -24,7 +30,7 @@ def copy(client, params, host_info):
             scp = SCPClient(client.get_transport())
             scp.put(src, dest)
             scp.close()
-            print(f"COPY : success")
+            print(dt_string + " - ROOT - INFO - host=" + address + " op=copy status=CHANGED")
         except Exception as e:
             # "e" contient le fichier défectueuse
             print(f"COPY : failed")
@@ -37,7 +43,6 @@ def copy(client, params, host_info):
                 scp = SCPClient(client.get_transport())
                 scp.get(dest, backup_dest)
                 scp.close()
-                print(f"Backup created: {dest} -> {backup_dest}")
 
             # Copier le nouveau dossier
             scp = SCPClient(client.get_transport())
