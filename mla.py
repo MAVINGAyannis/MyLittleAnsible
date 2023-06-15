@@ -42,5 +42,7 @@ if __name__ == '__main__':
     # Traitement des hôtes
     process_hosts(inventory_data, todos_data)
 
+    print(dt_string + " - ROOT - INFO - done processing tasks for hosts: " + str(ip_list))
+
     # Suppression des fichiers JSON
     delete_JSON('inventory.json', 'todos.json')

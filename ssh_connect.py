@@ -12,7 +12,6 @@ from modules.template import template
 from which_todos import which_todos
 
 def connect_ssh_user(host_info, todos_data):
-    print(f'  ssh_user: {host_info["ssh_user"]}')
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     try:
@@ -21,7 +20,6 @@ def connect_ssh_user(host_info, todos_data):
                        username=host_info["ssh_user"],
                        password=host_info["ssh_password"],
                        look_for_keys=False)
-        print("Connected successfully!")
         which_todos(client, todos_data, host_info)
     except Exception:
         print("Failed to establish connection.")
