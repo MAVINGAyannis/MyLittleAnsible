@@ -11,7 +11,7 @@ def which_todos(client, todos_data, host_info):
         params = todo.get('params')
 
         if module == 'apt':
-            apt(client, params)
+            apt(client, params, host_info)
 
         elif module == 'copy':
             copy(client, params, host_info)
@@ -20,13 +20,13 @@ def which_todos(client, todos_data, host_info):
             template(client, params)
 
         elif module == 'service':
-            service(client, params)
+            service(client, params, host_info)
 
         elif module == 'command':
-            command(client, params)
+            command(client, params, host_info)
 
         elif module == 'sysctl':
-            sysctl(client, params)
+            sysctl(client, params, host_info)
 
         else:
             # Module inconnu
