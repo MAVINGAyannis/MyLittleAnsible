@@ -4,6 +4,8 @@ from arguments.delete_JSON import delete_JSON
 from process_hosts import process_hosts
 import json
 from datetime import datetime
+from logging_config import configure_logging
+import logging
 
 # Point d'entrée du script
 if __name__ == '__main__':
@@ -14,6 +16,9 @@ if __name__ == '__main__':
 
     # Vérification des arguments
     check_arguments(args)
+
+    # Configuration des journaux
+    configure_logging()
 
     # Lecture du fichier d'inventaire YAML
     inventory_data = read_yaml_file(args.inventory)
@@ -37,12 +42,12 @@ if __name__ == '__main__':
     # Récupérer une liste d'adresses IP
     ip_list = [host_info['ssh_address'] for host_info in inventory['hosts'].values()]
 
-    print(dt_string + " - ROOT - INFO - proccessing " + str(num_hosts) + " task(s) on hosts: " + str(ip_list))
+    logging.info(dt_string + " processing " + str(num_hosts) + " task(s) on hosts: " + str(ip_list))
 
     # Traitement des hôtes
     process_hosts(inventory_data, todos_data)
 
-    print(dt_string + " - ROOT - INFO - done processing tasks for hosts: " + str(ip_list))
+    logging.info(dt_string + " done processing tasks for hosts: " + str(ip_list))
 
     # Suppression des fichiers JSON
     delete_JSON('inventory.json', 'todos.json')

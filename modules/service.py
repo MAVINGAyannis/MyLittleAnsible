@@ -1,5 +1,7 @@
 from modules.exec_command import execute_command
 from datetime import datetime
+from logging_config import configure_logging
+import logging
 
 def service(client, params, host_info):
     name = params.get('name')
@@ -9,7 +11,9 @@ def service(client, params, host_info):
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     address = host_info.get('ssh_address')
 
-    print(dt_string + " - ROOT - INFO - host=" + address + " op=service name=" + name +  " state=" + state)
+    configure_logging()
+
+    logging.info(dt_string + " host=" + address + " op=service name=" + name +  " state=" + state)
 
     if state == 'started':
         command = "systemctl start " + name + ".service"
@@ -22,6 +26,6 @@ def service(client, params, host_info):
     elif state == 'disabled':
         command = "systemctl disable " + name + ".service"
     else:
-        print("WRONG STATE")
+        logging.info("WRONG STATE")
     execute_command(client, command, "false", "/bin/bash")
-    print(dt_string + " - ROOT - INFO - host=" + address + " op=service status=CHANGED")
+    logging.info(dt_string + " host=" + address + " op=service status=CHANGED")
